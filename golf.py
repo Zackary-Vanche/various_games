@@ -89,8 +89,8 @@ class Player(RoundObject):
     def shoot(self, vx, vy, click_pos):
         # Créer un tir à partir de la position actuelle du joueur
         v = np.array([vx, vy])
-        bullet_x = self.x + (self.radius + 10) * vx / np.linalg.norm(v)
-        bullet_y = self.y + (self.radius + 10) * vy / np.linalg.norm(v)
+        bullet_x = self.x + (self.radius + 20) * vx / np.linalg.norm(v)
+        bullet_y = self.y + (self.radius + 20) * vy / np.linalg.norm(v)
         return Bullet(bullet_x, bullet_y, vx, vy, self, self.color, click_pos)
 
 # Classe pour les balles
@@ -169,7 +169,7 @@ image = get_altitude_color(altitude_matrix)
 
 nx = 5
 ny = 3
-player_radius = 20
+player_radius = 15
 player0 = Player(x=WIDTH // nx,
                  y=HEIGHT // ny,
                  radius=player_radius,
