@@ -36,6 +36,7 @@ coeff=2
 zoom_factor = 75
 scale = 5
 friction = 1-5e-2
+axy_abs_min = 1e-5
 
 def calculate_gradient(matrix, i, j):
     m, n = matrix.shape
@@ -113,6 +114,14 @@ class Bullet:
     def update(self, altitude_matrix):
         # Mettre à jour la position de la balle en fonction de son angle et de sa vitesse
         ax, ay = calculate_gradient(altitude_matrix, int(self.y), int(self.x))
+        if ax < 0:
+            ax = min(ax, -axy_abs_min)
+        else:
+            ax = max(ax, +axy_abs_min)
+        if ay < 0:
+            ay = min(ay, -axy_abs_min)
+        else:
+            ay = max(ay, +axy_abs_min)
         vx = self.vx*dt + g*ax*dt**2/2
         vy = self.vy*dt + g*ay*dt**2/2
         vx = vx*friction
@@ -120,10 +129,8 @@ class Bullet:
         v = np.linalg.norm([vx, vy])
         for i in range(1, 2+1, 1):
             if v <= i:
-                #vx = vx*(1+np.random.random()/2)
-                #vy = vy*(1+np.random.random()/2)
-                self.vx = self.vx*1.01
-                self.vy = self.vy*1.01
+                self.vx = self.vx*1.004
+                self.vy = self.vy*1.004
         vx = self.vx*dt + g*ax*dt**2/2
         vy = self.vy*dt + g*ay*dt**2/2
         vx = vx*friction
